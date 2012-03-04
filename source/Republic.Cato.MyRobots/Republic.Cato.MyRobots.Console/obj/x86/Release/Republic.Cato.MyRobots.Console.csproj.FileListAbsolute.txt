@@ -1,0 +1,8 @@
+C:\Users\Artem\documents\visual studio 2010\Projects\Republic.Cato.MyRobots\Republic.Cato.MyRobots.Console\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Artem\documents\visual studio 2010\Projects\Republic.Cato.MyRobots\Republic.Cato.MyRobots.Console\bin\Release\Republic.Cato.MyRobots.Console.exe
+C:\Users\Artem\documents\visual studio 2010\Projects\Republic.Cato.MyRobots\Republic.Cato.MyRobots.Console\bin\Release\Republic.Cato.MyRobots.Console.pdb
+C:\Users\Artem\documents\visual studio 2010\Projects\Republic.Cato.MyRobots\Republic.Cato.MyRobots.Console\bin\Release\Republic.Cato.MyRobots.dll
+C:\Users\Artem\documents\visual studio 2010\Projects\Republic.Cato.MyRobots\Republic.Cato.MyRobots.Console\bin\Release\Republic.Cato.MyRobots.pdb
+C:\Users\Artem\documents\visual studio 2010\Projects\Republic.Cato.MyRobots\Republic.Cato.MyRobots.Console\obj\x86\Release\Republic.Cato.MyRobots.Console.exe
+C:\Users\Artem\documents\visual studio 2010\Projects\Republic.Cato.MyRobots\Republic.Cato.MyRobots.Console\obj\x86\Release\Republic.Cato.MyRobots.Console.pdb
+C:\Users\Artem\documents\visual studio 2010\Projects\Republic.Cato.MyRobots\Republic.Cato.MyRobots.Console\bin\Release\Republic.Cato.MyRobots.Console.exe.config
