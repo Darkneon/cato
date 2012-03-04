@@ -10,6 +10,16 @@
 #define COUNTER_CLOCKWISE 6
 #define STOP 0
 
+enum Mood {
+  Sad,
+  Normal,
+  Excited
+};
+
+const int EXCITED_SPEED = 255;
+const int NORMAL_SPEED = 150;
+const int SAD_SPEED = 50;
+
 int E1 = 6; //M1 Speed Control
 int E2 = 5; //M2 Speed Control
 int M1 = 8; //M1 Direction Control
@@ -17,6 +27,7 @@ int M2 = 7; //M2 Direction Control
 byte stopInput = false;
 byte currentDirection = STOP;
 int currentSpeed = 0;
+Mood currentMood = Normal;
 MeetAndroid meetAndroid;
 int onboardLed = 13;
 
@@ -167,10 +178,12 @@ void queueDefaultBehavior() {
   int turnDirection = random(0,2);
   int turnDuration = random(700, 3000);
   
-  queueMovement(FORWARD, 200, 5000);
+  int speed = getMoodSpeed();
+
+  queueMovement(FORWARD, speed, 5000);
   queueMovement(STOP, 0, 500);
-  queueMovement(turnDirection ? LEFT: RIGHT, 200, turnDuration);
-  queueMovement(FORWARD, 200, 2000);
+  queueMovement(turnDirection ? LEFT: RIGHT, speed, turnDuration);
+  queueMovement(FORWARD, speed, 2000);
 }
 
 void clearMovementQueue() {
@@ -204,7 +217,7 @@ void confused() {
 void recoil() {
   stopMoving();
   clearMovementQueue();
-  queueMovement(BACK, 255, 300);
+  queueMovement(BACK, getMoodSpeed(), 300);
 }
 
 void attack() {
@@ -223,6 +236,14 @@ void attack() {
   queueMovement(FORWARD, 255, 1000);
 }
 
+int getMoodSpeed() {
+  switch(currentMood) {
+    case Sad : return SAD_SPEED;
+    case Normal: return NORMAL_SPEED;
+    case Excited: return EXCITED_SPEED;
+    default: return 0;
+  }
+}
 
 
 void loop() {
@@ -234,8 +255,6 @@ void loop() {
     stopInput = false;
   }
   executeItineraryStep();
-  
-  
   
   if (lightControl.isOn() && stopInput == false) {
     stopInput = true;
@@ -252,7 +271,17 @@ void testEvent(byte flag, byte numOfValues)
   
   meetAndroid.getString(command);
 
-  stun();
+  if (!strcmp(command, "sad")) {
+    currentMood = Sad;
+  } else if (!strcmp(command, "normal")) {
+    currentMood = Normal;
+  } else if (!strcmp(command, "excited")) {
+    currentMood = Excited;
+  } else if (!strcmp(command, "attack")) {
+    attack(); 
+  } else if (!strcmp(command, "stun")) {
+    stun();
+  }
 
 }
   
