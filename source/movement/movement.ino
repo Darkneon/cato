@@ -1,3 +1,5 @@
+#include <MeetAndroid.h>
+
 #include <QueueArray.h>
 
 #define FORWARD 1 
@@ -10,9 +12,11 @@ int E1 = 6; //M1 Speed Control
 int E2 = 5; //M2 Speed Control
 int M1 = 8; //M1 Direction Control
 int M2 = 7; //M2 Direction Control
-
+byte stopInput = false;
 byte currentDirection = STOP;
 int currentSpeed = 0;
+MeetAndroid meetAndroid;
+int onboardLed = 13;
 
 struct ItineraryStep {
   byte direction;
@@ -130,13 +134,20 @@ class LightControl{
 LightControl lightControl;
 
 void setup() {
-  int i;
-  for(i=5;i<=8;i++) {
+  
+  Serial.begin(9600); 
+  
+  meetAndroid.registerFunction(testEvent, 'A');  
+
+  //pinMode(onboardLed, OUTPUT);
+  //digitalWrite(onboardLed, HIGH);
+  for(int i=5;i<=8;i++) {
     pinMode(i, OUTPUT);
   }
   
   lightControl.calibrate(10, 10);
 }
+
 
 void queueDefaultBehavior() {
   int turnDirection = random(0,2);
@@ -161,6 +172,7 @@ void stun() {
 }
 
 void recoil() {
+  
   stopMoving();
   clearMovementQueue();
   queueMovement(BACK, 255, 300);
@@ -168,15 +180,36 @@ void recoil() {
 
 
 void loop() {
+  
+  meetAndroid.receive();
+  
   if (movementQueue.isEmpty()) {
     queueDefaultBehavior();
+    stopInput = false;
   }
   executeItineraryStep();
   
-  if (lightControl.isOn()) {
+  
+  
+  if (lightControl.isOn() && stopInput == false) {
+    stopInput = true;
     recoil();
+    
   }
   
+
 }
+
+  void testEvent(byte flag, byte numOfValues)
+  {
+    char command[255];
+  
+    meetAndroid.getString(command);
+
+    stun();
+
+  }
+  
+
 
 
