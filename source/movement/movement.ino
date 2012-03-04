@@ -6,6 +6,8 @@
 #define BACK 2
 #define LEFT 3
 #define RIGHT 4
+#define CLOCKWISE 5
+#define COUNTER_CLOCKWISE 6
 #define STOP 0
 
 int E1 = 6; //M1 Speed Control
@@ -65,6 +67,18 @@ void changeDirection() {
     case STOP:
       analogWrite(E1, 0);
       analogWrite(E2, 0);
+      break;
+    case CLOCKWISE:
+      analogWrite(E1, currentSpeed);
+      digitalWrite(M1, LOW);
+      analogWrite(E2, currentspeed / 2);
+      digitalWrite(M2, LOW);
+      break;
+    case COUNTER_CLOCKWISE:
+      analogWrite(E1, currentSpeed / 2);
+      digitalWrite(M1, LOW);
+      analogWrite(E2, currentSpeed);
+      digitalWrite(M2,LOW);
       break;
   }
 }
@@ -171,8 +185,23 @@ void stun() {
   queueMovement(STOP, 0, 5000);
 }
 
+void playful () {
+  queueMovement(FORWARD,255, 5000 );
+  queueMovement(turnDirection ? LEFT: RIGHT, 255, 2000);
+  queueMovement(FORWARD, 255, 3000);
+  queueMovement(turnDirection, 255, 900 );
+  queueMovement(FORWARD, 255, 5000);
+}
+
+void confused() {
+  queueMovement(turnDirection ? LEFT : RIGHT, 255, 3000 );
+  queueMovement(turnDirection ? LEFT : RIGHT, 255, 2000 );
+  queueMovement(turnDirection ? LEFT : RIGHT, 255, 3000 );
+  queueMovement(turnDirection ? LEFT : RIGHT, 255, 2000 );
+}
+
+
 void recoil() {
-  
   stopMoving();
   clearMovementQueue();
   queueMovement(BACK, 255, 300);
@@ -193,6 +222,7 @@ void attack() {
   queueMovement(STOP, 0, 100);
   queueMovement(FORWARD, 255, 1000);
 }
+
 
 
 void loop() {
@@ -216,15 +246,15 @@ void loop() {
 
 }
 
-  void testEvent(byte flag, byte numOfValues)
-  {
-    char command[255];
+void testEvent(byte flag, byte numOfValues)
+{
+  char command[255];
   
-    meetAndroid.getString(command);
+  meetAndroid.getString(command);
 
-    stun();
+  stun();
 
-  }
+}
   
 
 
