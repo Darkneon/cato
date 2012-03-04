@@ -178,6 +178,22 @@ void recoil() {
   queueMovement(BACK, 255, 300);
 }
 
+void attack() {
+  stopMoving();
+  clearMovementQueue();
+
+  queueMovement(BACK, 255, 100);
+  queueMovement(STOP, 0, 500);
+  
+  for (int i=0;i<5;i++) {
+    queueMovement(LEFT, 255, 200);
+    queueMovement(RIGHT, 255, 200);
+  }
+  
+  queueMovement(STOP, 0, 100);
+  queueMovement(FORWARD, 255, 1000);
+}
+
 
 void loop() {
   
@@ -193,7 +209,7 @@ void loop() {
   
   if (lightControl.isOn() && stopInput == false) {
     stopInput = true;
-    recoil();
+    attack();
     
   }
   
